@@ -1,0 +1,22 @@
+{
+  "name": "smart_tracker",
+  "version": "1.0.0",
+  "description": "SmartTracker – Cross-Platform Mobile Tracking App (Flutter)\r Course: Mobile Application Development (CS4723)\r Program: BSSE – Semester V\r Institute: Riphah International University\r Submitted to: Sir [Add Instructor Name]\r Submitted by: Farhan Ul Haq (55853S)\r 📌 Project Overview",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^2.2.1",
+    "cors": "^2.8.5",
+    "express": "^5.2.1",
+    "nodemon": "^3.1.11"
+  }
+}
