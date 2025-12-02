@@ -1,192 +1,185 @@
-SmartTracker – Cross-Platform Mobile Tracking App (Flutter)
+SmartTracker – Flutter Mobile Application
+
 Course: Mobile Application Development (CS4723)
-Program: BSSE – Semester V
-Institute: Riphah International University
-Submitted to: Sir [Add Instructor Name]
-Submitted by: Farhan Ul Haq (55853S)
-📌 Project Overview
+Program: BSSE – Semester V, Riphah International University, Islamabad
+Assignment: #3 – Complex Computing Problem (CCP)
 
-SmartTracker is a Flutter-based cross-platform mobile application designed to demonstrate mobile device sensor integration, REST API communication, and offline data storage.
-The app tracks the user's live GPS location, allows capturing camera images, creates activity logs, synchronizes them with a remote backend API, and stores recent activities offline for fast access.
+Author: Farhanul Haq
 
-This project fulfills all requirements of the Complex Computing Problem (CCP) of CS4723.
+Table of Contents
 
-🚀 Key Features
-✔ 1. Live Location Tracking using GPS
+Overview
 
-Uses geolocator to fetch user location.
+Features
 
-Displays real-time position on Google Maps (google_maps_flutter).
+Folder Structure
 
-✔ 2. Camera Image Capture
+Prerequisites
 
-Uses the camera package.
+Setup & Installation
 
-Image is attached to an activity entry.
+Google Maps API Key Setup
 
-✔ 3. Activity Logging
+Running the App
 
-Each activity includes:
+API Endpoints
 
-📍 Latitude, Longitude
+Testing
 
-🕒 Timestamp
+Contributors
 
-📸 Captured photo
+License
 
-Synced automatically with the REST API.
+Overview
 
-✔ 4. REST API Integration
+SmartTracker is a cross-platform Flutter application that:
 
-http package used for CRUD operations:
+Tracks live location using GPS
 
-POST – Create activity
+Captures photos using device camera
 
-GET – Fetch history
+Logs activities (location + image + timestamp + address)
 
-DELETE – Remove activity
+Syncs logs with a REST API backend
 
-Uses Provider/Repository architecture.
+Provides offline caching for the last 5 activities
 
-✔ 5. Offline Storage (Recent 5 Activities)
+Displays a history dashboard with search and delete options
 
-Uses Hive / SharedPreferences to cache last 5 logs.
+The app follows clean architecture:
 
-Displays instantly without API calls.
+UI (Flutter Screens) → Provider (State Management) → Node.js REST API → Local Storage (Hive / SharedPreferences)
 
-✔ 6. Clean Architecture
-lib/
-├── data/
-│   ├── models/
-│   ├── repository/
-├── providers/
-├── screens/
-│   ├── home/
-│   ├── activity_log/
-│   ├── camera/
-├── widgets/
-└── utils/
+Features
 
+Live Google Maps with current location
 
-State management: Provider
+Capture activity images using Camera
 
-UI: Responsive for phones/tablets.
+Add, view, and delete activity logs
 
-🛠️ Technologies & Packages Used
-Purpose	Package
-GPS	geolocator
-Maps	google_maps_flutter
-Camera	camera
-REST API	http
-Offline Storage	SharedPreferences / Hive
-Architecture	Provider Pattern
-🌐 API Endpoints (Sample – Modify According to Your Server)
-Method	Endpoint	Description
-POST	/activities	Upload activity with image + location
-GET	/activities	Fetch all activity logs
-DELETE	/activities/:id	Delete activity log
+Offline storage for recent activities
 
-Postman Collection included in project repo.
+API integration with GET/POST endpoints
 
-📲 How to Run the Project
-1️⃣ Install Dependencies
+Responsive UI for Android devices
+
+Folder Structure
+smart_tracker/
+│
+├─ android/                  # Android platform-specific files
+├─ ios/                      # iOS platform-specific files
+├─ lib/
+│   ├─ domain/
+│   │   └─ entities/
+│   │       └─ activity.dart
+│   ├─ presentation/
+│   │   └─ screens/
+│   │       ├─ map_screen.dart
+│   │       └─ add_activity_screen.dart
+│   ├─ providers/
+│   │   └─ activity_provider.dart
+│   ├─ services/
+│   │   └─ api_service.dart
+│   └─ main.dart
+├─ test/                     # Unit & widget tests
+├─ server.js                  # Node.js REST API
+├─ pubspec.yaml               # Flutter dependencies
+└─ README.md
+
+Prerequisites
+
+Flutter SDK (>=3.0)
+
+Android Studio (with Flutter & Dart plugins)
+
+Node.js (>=18.x) & npm
+
+Google Maps API Key
+
+Terminal / PowerShell for running server & Flutter app
+
+Setup & Installation
+1. Clone Repository
+git clone <your-github-repo-link>
+cd smart_tracker
+
+2. Install Flutter Dependencies
 flutter pub get
 
-2️⃣ Permissions Required
+3. Setup Node.js Backend
+npm install express
+node server.js
 
-Add these to AndroidManifest (already done in project):
 
-ACCESS_FINE_LOCATION
+Server runs on: http://localhost:3000
 
-ACCESS_COARSE_LOCATION
+Endpoints:
 
-CAMERA
+GET /activities → fetch all activities
 
-Internet access
+POST /activities → add a new activity
 
-3️⃣ Run App
-flutter run
+Google Maps API Key Setup
 
-4️⃣ If camera list shows error
+Go to Google Cloud Console
+ → APIs & Services → Credentials
 
-Run:
+Create an API key for Maps SDK for Android
 
-flutter clean
-flutter pub get
+Enable Maps SDK for Android & Places API
 
-📦 Offline Storage Mechanism
+Add the API key to android/app/src/main/AndroidManifest.xml:
 
-A local Hive box / SharedPreferences key stores last 5 activities.
+<meta-data android:name="com.google.android.geo.API_KEY" android:value="YOUR_API_KEY_HERE"/>
 
-Oldest activity is removed when a new one is added.
 
-Auto-loaded on Home screen even without WiFi.
+Replace YOUR_API_KEY_HERE with your key
 
-🧪 Testing Performed
-✔ API Testing (Postman)
+Running the App in Android Studio
 
-POST activity
+Open Android Studio → File → Open → select smart_tracker folder
 
-GET all logs
+Connect Android device or launch emulator
 
-DELETE log
+Run main.dart
 
-Server error handling and response validation
+Grant location and camera permissions on first launch
 
-✔ Sensor Testing
+Test app features: Map, Capture Activity, View Dashboard
 
-GPS simulation on Android Studio emulator
+API Endpoints
 
-Camera test using emulator virtual camera
+GET Activities:
 
-Real-device test for accuracy
+Invoke-RestMethod -Uri http://localhost:3000/activities -Method Get
 
-✔ Offline Mode Test
 
-Turn off internet → 5 cached activities still visible
+POST Activity:
 
-On reconnect → automatic sync
+Invoke-RestMethod -Uri http://localhost:3000/activities -Method Post -Body (@{
+    latitude = 33.6844
+    longitude = 73.0479
+    imageBase64 = "test123"
+    timestamp = "2025-12-02T12:00:00"
+    address = "Current Location"
+} | ConvertTo-Json) -ContentType "application/json"
 
-✔ Performance Testing
+Testing
 
-Map rendering on low-end phones
+Verify GET /activities returns empty or existing logs
 
-Camera initialization speed
+Verify POST /activities adds a new activity and prints in Node.js terminal
 
-API latency handling
+Offline caching tested via last 5 activities
 
-📖 User Manual (Quick Guide)
+UI tested on Android device/emulator
+Screenshots are added in Folder 
 
-Open the app → Grant GPS and Camera permissions.
+Contributors
 
-Home screen shows your current location on map.
+Farhanul Haq – BSSE, Riphah International University, Islamabad
 
-Tap Capture Activity → Opens camera → Take a picture.
+License
 
-Activity automatically logs:
-
-Image
-
-Coordinates
-
-Timestamp
-
-Go to History Screen to view logs.
-
-Tap Search to filter activities.
-
-Swipe/Delete to remove a log.
-
-Last 5 activities always available offline.
-
-📁 Project Deliverables Included
-
-✔ Complete Flutter Source Code
-✔ API Endpoints + Postman Collection
-✔ All Testing Screenshots
-✔ Full Project Report (as required)
-✔ GitHub Repository Link
-
-📌 GitHub Repository
-
-👉 Add your GitHub repo link here before submission
+Academic project – not intended for commercial use
